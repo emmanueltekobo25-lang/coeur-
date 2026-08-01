@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Un cœur à scanner</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>Un feu d'artifice pour toi</title>
 <style>
   :root{
     --wine: #1a0509;
@@ -17,7 +16,7 @@
   *{ box-sizing:border-box; margin:0; padding:0; }
   html,body{ height:100%; }
   body{
-    background: radial-gradient(ellipse at 50% 20%, #2a0810 0%, var(--wine) 45%, var(--wine-deep) 100%);
+    background: radial-gradient(ellipse at 50% 30%, #2a0810 0%, var(--wine) 50%, var(--wine-deep) 100%);
     color: var(--cream);
     font-family: 'Georgia', 'Iowan Old Style', serif;
     overflow: hidden;
@@ -25,95 +24,9 @@
     width: 100vw;
     position: relative;
   }
-  .eyebrow{
-    font-family: -apple-system, 'Poppins', sans-serif;
-    letter-spacing: .35em;
-    text-transform: uppercase;
-    font-size: 11px;
-    color: var(--gold);
-    opacity: .85;
-  }
 
-  /* ---------- EMBERS (ambient) ---------- */
-  #embers{ position:fixed; inset:0; pointer-events:none; z-index:1; }
+  #fw-canvas{ position:fixed; inset:0; width:100%; height:100%; display:block; }
 
-  /* ---------- SCENE: HEART + QR ---------- */
-  #scene-heart{
-    position: fixed; inset:0;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap: 22px;
-    z-index: 3;
-    transition: opacity .6s ease;
-  }
-  .heart-outer{
-    width: 260px;
-    height: 260px;
-    position: relative;
-    transform: rotate(-45deg);
-    animation: pulse 2.2s ease-in-out infinite;
-  }
-  .heart-outer, .heart-outer::before, .heart-outer::after{
-    background: linear-gradient(135deg, var(--red) 0%, var(--red-deep) 70%);
-    box-shadow: 0 0 90px rgba(255,26,60,.55), 0 0 160px rgba(255,26,60,.25);
-  }
-  .heart-outer::before, .heart-outer::after{
-    content:""; position:absolute; width:100%; height:100%; border-radius:50%;
-  }
-  .heart-outer::before{ top:-50%; left:0; }
-  .heart-outer::after{ top:0; left:50%; }
-
-  @keyframes pulse{
-    0%,100%{ transform: rotate(-45deg) scale(1); }
-    50%{ transform: rotate(-45deg) scale(1.045); }
-  }
-
-  .qr-wrap{
-    position:absolute;
-    top: 46%; left: 50%;
-    transform: translate(-50%,-50%) rotate(45deg);
-    background: var(--cream);
-    padding: 14px;
-    border-radius: 18px;
-    box-shadow: 0 4px 30px rgba(0,0,0,.4);
-  }
-  #qrcode{ width:132px; height:132px; }
-  #qrcode img, #qrcode canvas{ display:block; width:132px !important; height:132px !important; border-radius:6px; }
-
-  .heart-title{
-    font-size: 26px;
-    letter-spacing: .01em;
-    text-align:center;
-    color: var(--cream);
-  }
-  .heart-sub{
-    font-family: -apple-system, 'Poppins', sans-serif;
-    font-size: 13px;
-    color: rgba(255,243,238,.65);
-    text-align:center;
-    max-width: 260px;
-    line-height: 1.5;
-  }
-  .tap-hint{
-    font-family: -apple-system, 'Poppins', sans-serif;
-    font-size: 12px;
-    color: var(--gold);
-    letter-spacing:.08em;
-    cursor:pointer;
-    border: 1px solid rgba(255,207,107,.4);
-    padding: 9px 20px;
-    border-radius: 999px;
-    transition: all .25s ease;
-  }
-  .tap-hint:hover{ background: rgba(255,207,107,.1); }
-
-  /* ---------- SCENE: FIREWORKS ---------- */
-  #scene-fireworks{
-    position: fixed; inset:0;
-    z-index: 4;
-    display:none;
-    background: radial-gradient(ellipse at 50% 30%, #2a0810 0%, var(--wine) 50%, var(--wine-deep) 100%);
-  }
-  #fw-canvas{ position:absolute; inset:0; width:100%; height:100%; }
   #fw-message{
     position:absolute;
     left:50%; top:38%;
@@ -131,7 +44,7 @@
   #fw-message.show{ opacity:1; transform: translate(-50%,-50%) scale(1); }
 
   #replay-btn{
-    position:absolute; bottom: 40px; left:50%; transform: translateX(-50%);
+    position:fixed; bottom: 40px; left:50%; transform: translateX(-50%);
     font-family: -apple-system, 'Poppins', sans-serif;
     font-size: 12px; letter-spacing:.1em; text-transform:uppercase;
     color: var(--wine-deep);
@@ -147,25 +60,9 @@
 </head>
 <body>
 
-<canvas id="embers"></canvas>
-
-<!-- ===== Scène 1 : le cœur avec le QR code ===== -->
-<div id="scene-heart">
-  <p class="eyebrow">Pour toi</p>
-  <div class="heart-outer">
-    <div class="qr-wrap"><div id="qrcode"></div></div>
-  </div>
-  <h1 class="heart-title">Scanne mon cœur</h1>
-  <p class="heart-sub">Chaque scan libère un message, comme un feu d'artifice.</p>
-  <div class="tap-hint" id="preview-btn">Voir l'aperçu ici →</div>
-</div>
-
-<!-- ===== Scène 2 : les feux d'artifice ===== -->
-<div id="scene-fireworks">
-  <canvas id="fw-canvas"></canvas>
-  <div id="fw-message"></div>
-  <button id="replay-btn">Rejouer</button>
-</div>
+<canvas id="fw-canvas"></canvas>
+<div id="fw-message"></div>
+<button id="replay-btn">Rejouer</button>
 
 <script>
 /* =========================================================
@@ -181,71 +78,6 @@ const MESSAGES = [
 ];
 /* ========================================================= */
 
-/* ---------- Génération du QR code ----------
-   Le QR encode l'URL de cette page + ?boom=1
-   → quand quelqu'un le scanne, la page s'ouvre directement
-     sur la scène des feux d'artifice. */
-(function initQR(){
-  const base = window.location.origin + window.location.pathname;
-  const target = base + (base.includes('?') ? '&' : '?') + 'boom=1';
-  new QRCode(document.getElementById("qrcode"), {
-    text: target,
-    width: 132,
-    height: 132,
-    colorDark: "#8a0018",
-    colorLight: "#fff3ee",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-})();
-
-/* ---------- Bascule entre les deux scènes ---------- */
-const sceneHeart = document.getElementById('scene-heart');
-const sceneFireworks = document.getElementById('scene-fireworks');
-
-function showFireworksScene(){
-  sceneHeart.style.display = 'none';
-  sceneFireworks.style.display = 'block';
-  startFireworksShow();
-}
-
-document.getElementById('preview-btn').addEventListener('click', showFireworksScene);
-
-// Si la page est ouverte via le QR scanné (?boom=1), on lance direct.
-if (new URLSearchParams(window.location.search).get('boom') === '1') {
-  showFireworksScene();
-}
-
-/* ---------- Braises ambiantes (scène 1) ---------- */
-const emberCanvas = document.getElementById('embers');
-const ectx = emberCanvas.getContext('2d');
-function resizeEmbers(){ emberCanvas.width = innerWidth; emberCanvas.height = innerHeight; }
-resizeEmbers();
-window.addEventListener('resize', resizeEmbers);
-
-let embers = Array.from({length: 40}, () => ({
-  x: Math.random()*innerWidth,
-  y: Math.random()*innerHeight,
-  r: Math.random()*2+0.6,
-  s: Math.random()*0.6+0.15,
-  o: Math.random()*0.5+0.15
-}));
-function animEmbers(){
-  ectx.clearRect(0,0,emberCanvas.width, emberCanvas.height);
-  if (sceneHeart.style.display !== 'none') {
-    embers.forEach(e=>{
-      e.y -= e.s;
-      if (e.y < -10) e.y = innerHeight + 10;
-      ectx.beginPath();
-      ectx.arc(e.x, e.y, e.r, 0, Math.PI*2);
-      ectx.fillStyle = `rgba(255,${120+Math.random()*80|0},${90},${e.o})`;
-      ectx.fill();
-    });
-  }
-  requestAnimationFrame(animEmbers);
-}
-animEmbers();
-
-/* ---------- Feux d'artifice + messages (scène 2) ---------- */
 const fwCanvas = document.getElementById('fw-canvas');
 const fctx = fwCanvas.getContext('2d');
 function resizeFw(){ fwCanvas.width = innerWidth; fwCanvas.height = innerHeight; }
@@ -277,7 +109,6 @@ function explode(x, y, color, heartShaped){
     let angle, speed;
     if (heartShaped){
       const t = Math.PI*2*(i/count);
-      // paramétrisation d'un cœur
       const hx = 16*Math.pow(Math.sin(t),3);
       const hy = -(13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t));
       particles.push({
@@ -337,7 +168,7 @@ let msgIndex = 0;
 function showMessage(text){
   fwMessageEl.textContent = text;
   fwMessageEl.classList.remove('show');
-  void fwMessageEl.offsetWidth; // reflow pour relancer la transition
+  void fwMessageEl.offsetWidth;
   fwMessageEl.classList.add('show');
 }
 
@@ -382,6 +213,9 @@ function startFireworksShow(){
 }
 
 replayBtn.addEventListener('click', startFireworksShow);
+
+// Lancement automatique dès l'ouverture de la page — aucun clic requis.
+startFireworksShow();
 </script>
 </body>
 </html>
